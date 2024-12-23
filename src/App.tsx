@@ -17,15 +17,13 @@ import { Header } from './components/Header';
 import { MyError } from './components/MyError';
 
 function filterTodos(todos: Todo[], filterBy: string) {
-  const copy = [...todos];
-
   switch (filterBy) {
     case FILTER_BY.ALL:
-      return copy;
+      return todos;
     case FILTER_BY.ACTIVE:
-      return copy.filter(e => !e.completed);
+      return todos.filter(e => !e.completed);
     case FILTER_BY.COMPLETED:
-      return copy.filter(e => e.completed);
+      return todos.filter(e => e.completed);
   }
 
   return [];
@@ -43,9 +41,7 @@ export const App: React.FC = () => {
   useEffect(() => {
     setTimeout(() => {
       getTodos()
-        .then(todosFromServer => {
-          setTodos(todosFromServer);
-        })
+        .then(setTodos)
         .catch(() => setErrorMessage('Unable to load todos'));
     }, 200);
   }, []);
@@ -112,10 +108,6 @@ export const App: React.FC = () => {
       if (isError) {
         throw new Error('Unable to delete a todo');
       }
-
-      // const isSuccess = results
-      //   .filter(result => result.status === 'fulfilled')
-      //   .map((_, index) => completedTodos[index].id);
     } catch {
       setErrorMessage('Unable to delete a todo');
     } finally {
