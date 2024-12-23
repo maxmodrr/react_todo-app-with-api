@@ -144,6 +144,7 @@ export const TodoItem: React.FC<Props> = ({
           <input
             type="text"
             data-cy="TodoTitleField"
+            className="todoapp__update-todo"
             value={updateTitle}
             autoFocus
             onChange={e => setUpdateTitle(e.target.value)}
